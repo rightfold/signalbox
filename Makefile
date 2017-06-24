@@ -5,7 +5,7 @@ CXX=g++
 CXXFLAGS=-std=c++14 -Wall -Wextra -Wpedantic -D_GLIBCXX_DEBUG -Ivendor
 
 LD=gcc
-LDFLAGS=-lgfortran -lstdc++ -lboost_system -lboost_filesystem
+LDFLAGS=-lgfortran -lstdc++ -lboost_system -lboost_filesystem -lzmq
 
 F95_SOURCES=$(shell find src -name '*.f95')
 F95_OBJECTS=$(patsubst src/%.f95,build/src/%.f95.o,${F95_SOURCES})
@@ -20,6 +20,7 @@ CXX_TEST_OBJECTS=$(patsubst test/%.cpp,build/test/%.cpp.o,${CXX_TEST_SOURCES})
 
 all: build/signalboxd
 
+.PHONY: test
 test: build/signalboxt
 	build/signalboxt
 
