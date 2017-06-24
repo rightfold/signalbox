@@ -1,11 +1,11 @@
 F95=gfortran
-F95FLAGS=-Wall -Wextra -Wpedantic -fbounds-check -fno-underscoring
+F95FLAGS=-std=f2008 -Wall -Wextra -Wpedantic -fbounds-check -fno-underscoring
 
 CXX=g++
 CXXFLAGS=-std=c++14 -Wall -Wextra -Wpedantic -D_GLIBCXX_DEBUG -Ivendor
 
 LD=gcc
-LDFLAGS=-lgfortran -lstdc++
+LDFLAGS=-lgfortran -lstdc++ -lboost_system -lboost_filesystem
 
 F95_SOURCES=$(shell find src -name '*.f95')
 F95_OBJECTS=$(patsubst src/%.f95,build/src/%.f95.o,${F95_SOURCES})
