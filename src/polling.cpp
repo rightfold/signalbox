@@ -36,9 +36,7 @@ namespace {
   }
 }
 
-boost::optional<sb::net::message> sb::net::poll(zmq::socket_t& socket) {
-  auto constexpr timeout = std::chrono::milliseconds(100);
-
+boost::optional<sb::net::message> sb::net::poll(zmq::socket_t& socket, std::chrono::milliseconds timeout) {
   bool ok;
   message message;
   zmq::message_t buffer;

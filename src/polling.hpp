@@ -4,6 +4,7 @@
 #include <boost/optional.hpp>
 #include <zmq.hpp>
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <string>
@@ -19,6 +20,6 @@ namespace sb {
 
     boost::optional<signal> parse(std::uint8_t const*, std::size_t);
 
-    boost::optional<message> poll(zmq::socket_t&);
+    boost::optional<message> poll(zmq::socket_t&, std::chrono::milliseconds);
   }
 }

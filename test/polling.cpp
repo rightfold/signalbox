@@ -3,6 +3,7 @@
 #include <catch.hpp>
 #include <zmq.hpp>
 
+#include <chrono>
 #include <cstdint>
 
 TEST_CASE("sb::net::parse", "[polling]") {
@@ -58,15 +59,17 @@ TEST_CASE("sb::net::poll", "[polling]") {
   server.bind("inproc://server");
   client.connect("inproc://server");
 
+  std::chrono::milliseconds timeout(100);
+
   SECTION("timeout") {
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!message);
   }
 
   SECTION("missing sample part") {
     client.send("foo", 3);
 
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!message);
   }
 
@@ -75,7 +78,7 @@ TEST_CASE("sb::net::poll", "[polling]") {
     client.send(nullptr, 0, ZMQ_SNDMORE);
     client.send(nullptr, 0);
 
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!message);
   }
 
@@ -84,7 +87,7 @@ TEST_CASE("sb::net::poll", "[polling]") {
     client.send("foo", 3, ZMQ_SNDMORE);
     client.send(data, sizeof(data));
 
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!message);
   }
 
@@ -92,7 +95,7 @@ TEST_CASE("sb::net::poll", "[polling]") {
     client.send("foo", 3, ZMQ_SNDMORE);
     client.send(nullptr, 0);
 
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!!message);
     REQUIRE(message->channel == "foo");
     REQUIRE(message->signal.size() == 0);
@@ -106,7 +109,7 @@ TEST_CASE("sb::net::poll", "[polling]") {
     client.send("foo", 3, ZMQ_SNDMORE);
     client.send(data, sizeof(data));
 
-    auto message = sb::net::poll(server);
+    auto message = sb::net::poll(server, timeout);
     REQUIRE(!!message);
     REQUIRE(message->channel == "foo");
     REQUIRE(message->signal.size() == 2);
