@@ -32,7 +32,7 @@ namespace {
     poll_item.socket = socket;
     poll_item.events = ZMQ_POLLIN;
     auto ok = zmq::poll(&poll_item, 1, timeout.count());
-    return ok ? socket.recv(message), true : false;
+    return ok && (socket.recv(message), true);
   }
 }
 
