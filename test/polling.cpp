@@ -23,7 +23,7 @@ TEST_CASE("sb::parse", "[polling]") {
 
   SECTION("well-formed, no samples") {
     auto message = sb::parse(nullptr, 0);
-    REQUIRE(message);
+    REQUIRE(!!message);
   }
 
   SECTION("well-formed, one sample") {
@@ -31,7 +31,7 @@ TEST_CASE("sb::parse", "[polling]") {
       0x00, 0x00, 0x00, 0x00,
     };
     auto message = sb::parse(data, sizeof(data));
-    REQUIRE(message);
+    REQUIRE(!!message);
     REQUIRE(message->size() == 1);
     REQUIRE(message->at(0) == 0.0f);
   }
@@ -42,7 +42,7 @@ TEST_CASE("sb::parse", "[polling]") {
       0x00, 0x00, 0x00, 0x40,
     };
     auto message = sb::parse(data, sizeof(data));
-    REQUIRE(message);
+    REQUIRE(!!message);
     REQUIRE(message->size() == 2);
     REQUIRE(message->at(0) == 1.0f);
     REQUIRE(message->at(1) == 2.0f);
