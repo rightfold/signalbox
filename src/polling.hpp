@@ -9,17 +9,15 @@
 #include <cstdint>
 #include <string>
 
-namespace sb {
-  namespace net {
-    using signal = boost::container::small_vector<float, 16>;
+namespace sb::net {
+  using signal = boost::container::small_vector<float, 16>;
 
-    struct message {
-      std::string channel;
-      sb::net::signal signal;
-    };
+  struct message {
+    std::string channel;
+    sb::net::signal signal;
+  };
 
-    boost::optional<signal> parse(std::uint8_t const*, std::size_t);
+  boost::optional<signal> parse(std::uint8_t const*, std::size_t);
 
-    boost::optional<message> poll(zmq::socket_t&, std::chrono::milliseconds);
-  }
+  boost::optional<message> poll(zmq::socket_t&, std::chrono::milliseconds);
 }
