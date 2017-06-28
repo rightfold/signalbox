@@ -1,7 +1,7 @@
 F95=gfortran
 F95FLAGS=-std=f2008 -Wall -Wextra -Wpedantic -fbounds-check -fno-underscoring
 
-CXX=g++
+CXX=clang
 CXXFLAGS=-std=c++14 -Wall -Wextra -Wpedantic -D_GLIBCXX_DEBUG -Ivendor
 
 LD=gcc
